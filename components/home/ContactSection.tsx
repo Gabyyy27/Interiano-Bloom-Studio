@@ -25,7 +25,7 @@ import {
 
 import SectionContainer from "@/components/common/SectionContainer";
 
-const WHATSAPP_NUMBER = "50433698142";
+const WHATSAPP_NUMBER = "50433219649";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 const FACEBOOK_URL =
