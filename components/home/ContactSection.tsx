@@ -204,7 +204,7 @@ export default function ContactSection() {
         event.preventDefault();
 
         const message = [
-            "Hola Interiano Bloom Studio, deseo cotizar un detalle floral.",
+            "Hola Interiano Bloom Studio, deseo cotizar un detalle",
             "",
             `Nombre: ${name}`,
             `Ocasión: ${occasion}`,
