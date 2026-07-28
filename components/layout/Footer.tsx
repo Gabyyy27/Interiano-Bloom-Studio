@@ -49,8 +49,8 @@ const socialItems = [
     icon: <WhatsAppIcon />,
   },
   {
-    label: "+504 3396-8142",
-    href: "tel:+50433968142",
+    label: "+504 3321-9649",
+    href: "tel:+50433219649",
     icon: <TelephoneIcon />,
     newTab: false,
   },

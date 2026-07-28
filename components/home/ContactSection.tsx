@@ -311,7 +311,7 @@ export default function ContactSection() {
                             <InfoCard
                                 icon={<WhatsAppIcon />}
                                 label="WhatsApp"
-                                value="+504 33698142"
+                                value="+504 3321-9649"
                                 href={WHATSAPP_URL}
                             />
 
@@ -506,38 +506,39 @@ export default function ContactSection() {
             </SectionContainer>
 
             <Fab
-  component="a"
-  href={WHATSAPP_URL}
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Abrir conversación de WhatsApp"
-  sx={{
-    position: "fixed",
-    right: {
-      xs: 18,
-      md: 28,
-    },
-    bottom: {
-      xs: 18,
-      md: 28,
-    },
-    zIndex: (theme) => theme.zIndex.tooltip,
-    width: 62,
-    height: 62,
+                className="floating-whatsapp-button"
+                component="a"
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Abrir conversación de WhatsApp"
+                sx={{
+                    position: "fixed",
+                    right: {
+                        xs: 18,
+                        md: 28,
+                    },
+                    bottom: {
+                        xs: 18,
+                        md: 28,
+                    },
+                    zIndex: (theme) => theme.zIndex.tooltip,
+                    width: 62,
+                    height: 62,
 
-    color: "primary.dark",
-    backgroundColor: "secondary.light",
-    border: "none",
-    boxShadow: "0 12px 28px rgba(135, 102, 59, 0.34)",
+                    color: "primary.dark",
+                    backgroundColor: "secondary.light",
+                    border: "none",
+                    boxShadow: "0 12px 28px rgba(135, 102, 59, 0.34)",
 
-    "&:hover": {
-      color: "common.white",
-      backgroundColor: "secondary.dark",
-    },
-  }}
->
-  <WhatsAppIcon fontSize="large" />
-</Fab>
+                    "&:hover": {
+                        color: "common.white",
+                        backgroundColor: "secondary.dark",
+                    },
+                }}
+            >
+                <WhatsAppIcon fontSize="large" />
+            </Fab>
         </Box>
     );
 }
