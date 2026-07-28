@@ -207,27 +207,33 @@ export default function HeroSection() {
               >
                 Escríbenos
               </Button>
-                        </Stack>
+            </Stack>
           </Stack>
 
           <Box
             sx={{
               position: "relative",
-              display: {
-                xs: "none",
-                lg: "block",
-              },
-              minHeight: {
+              display: "block",
+              width: "100%",
+              height: {
+                xs: 360,
+                sm: 480,
+                md: 560,
                 lg: 680,
                 xl: 760,
               },
               overflow: "hidden",
               borderRadius: {
+                xs: "28px",
+                sm: "36px",
                 lg: "48px",
                 xl: "64px",
               },
               backgroundColor: "secondary.light",
-              boxShadow: "0 30px 80px rgba(73, 53, 36, 0.14)",
+              boxShadow: {
+                xs: "0 20px 48px rgba(73, 53, 36, 0.12)",
+                lg: "0 30px 80px rgba(73, 53, 36, 0.14)",
+              },
             }}
           >
             <Image
@@ -235,7 +241,11 @@ export default function HeroSection() {
               alt="Arreglo floral de Interiano Bloom Studio"
               fill
               preload
-              sizes="(max-width: 1199px) 100vw, 52vw"
+              sizes="
+      (max-width: 599px) calc(100vw - 32px),
+      (max-width: 899px) calc(100vw - 48px),
+      52vw
+    "
               style={{
                 objectFit: "cover",
                 objectPosition: "center",

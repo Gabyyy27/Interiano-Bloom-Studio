@@ -1,4 +1,8 @@
-import { Box, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  GlobalStyles,
+  Typography,
+} from "@mui/material";
 
 const tickerItems = [
   "Globos",
@@ -11,32 +15,27 @@ const tickerItems = [
 
 function TickerGroup() {
   return (
-    <Stack
-      direction="row"
+    <Box
       aria-hidden="true"
       sx={{
+        display: "flex",
         flexShrink: 0,
         alignItems: "center",
-        gap: {
-          xs: 4,
-          sm: 6,
-          md: 8,
-        },
-        pr: {
-          xs: 4,
-          sm: 6,
-          md: 8,
-        },
       }}
     >
       {tickerItems.map((item) => (
-        <Stack
+        <Box
           key={item}
-          direction="row"
           sx={{
+            display: "flex",
             flexShrink: 0,
             alignItems: "center",
             gap: {
+              xs: 2.5,
+              sm: 3.5,
+              md: 4,
+            },
+            mr: {
               xs: 4,
               sm: 6,
               md: 8,
@@ -46,13 +45,16 @@ function TickerGroup() {
           <Typography
             component="span"
             sx={{
-              color: "rgba(255, 255, 255, 0.82)",
-              fontFamily: "var(--font-display), Georgia, serif",
+              color: "rgba(255, 253, 248, 0.86)",
+              fontFamily:
+                "var(--font-display), Georgia, serif",
               fontSize: {
-                xs: "1rem",
+                xs: "0.98rem",
+                sm: "1.05rem",
                 md: "1.15rem",
               },
               fontWeight: 500,
+              lineHeight: 1,
               whiteSpace: "nowrap",
             }}
           >
@@ -61,70 +63,78 @@ function TickerGroup() {
 
           <Box
             component="span"
-            aria-hidden="true"
             sx={{
-              color: "#D8B77C",
+              color: "secondary.main",
               fontSize: {
-                xs: "1rem",
-                md: "1.2rem",
+                xs: "0.9rem",
+                md: "1.1rem",
               },
               lineHeight: 1,
             }}
           >
             ✦
           </Box>
-        </Stack>
+        </Box>
       ))}
-    </Stack>
+    </Box>
   );
 }
 
 export default function ServicesTicker() {
   return (
-    <Box
-      aria-label="Servicios de Interiano Bloom Studio"
-      sx={{
-        width: "100%",
-        overflow: "hidden",
-        backgroundColor: "primary.dark",
-        borderTop: "1px solid rgba(216, 183, 124, 0.12)",
-        borderBottom: "1px solid rgba(216, 183, 124, 0.12)",
-
-        "@keyframes servicesTicker": {
-          from: {
-            transform: "translateX(0)",
+    <>
+      <GlobalStyles
+        styles={{
+          "@keyframes servicesTickerMovement": {
+            "0%": {
+              transform: "translate3d(0, 0, 0)",
+            },
+            "100%": {
+              transform: "translate3d(-50%, 0, 0)",
+            },
           },
-          to: {
-            transform: "translateX(-50%)",
-          },
-        },
+        }}
+      />
 
-        "&:hover .services-ticker-track": {
-          animationPlayState: "paused",
-        },
-      }}
-    >
       <Box
-        className="services-ticker-track"
+        aria-label="Servicios de Interiano Bloom Studio"
         sx={{
-          display: "flex",
-          width: "max-content",
-          py: {
-            xs: 2.25,
-            md: 2.75,
-          },
-          animation: "servicesTicker 28s linear infinite",
-          willChange: "transform",
+          width: "100%",
+          overflow: "hidden",
+          backgroundColor: "primary.dark",
+          borderTop: "1px solid",
+          borderBottom: "1px solid",
+          borderColor: "rgba(216, 183, 124, 0.16)",
 
-          "@media (prefers-reduced-motion: reduce)": {
-            animation: "none",
-            transform: "translateX(0)",
+          "&:hover .services-ticker-track": {
+            animationPlayState: "paused",
           },
         }}
       >
-        <TickerGroup />
-        <TickerGroup />
+        <Box
+          className="services-ticker-track"
+          sx={{
+            display: "flex",
+            width: "max-content",
+            py: {
+              xs: 2.25,
+              md: 2.75,
+            },
+            animationName: "servicesTickerMovement",
+            animationDuration: {
+              xs: "18s",
+              sm: "23s",
+              md: "30s",
+            },
+            animationTimingFunction: "linear",
+            animationIterationCount: "infinite",
+            willChange: "transform",
+          }}
+        >
+          <TickerGroup />
+          <TickerGroup />
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }
