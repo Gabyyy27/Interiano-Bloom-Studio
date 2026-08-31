@@ -4,7 +4,6 @@ import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined";
 import BreakfastDiningOutlinedIcon from "@mui/icons-material/BreakfastDiningOutlined";
 import CelebrationOutlinedIcon from "@mui/icons-material/CelebrationOutlined";
 import DiamondOutlinedIcon from "@mui/icons-material/DiamondOutlined";
-import LocalCafeOutlinedIcon from "@mui/icons-material/LocalCafeOutlined";
 import LocalFloristOutlinedIcon from "@mui/icons-material/LocalFloristOutlined";
 import { Box, Stack, Typography } from "@mui/material";
 

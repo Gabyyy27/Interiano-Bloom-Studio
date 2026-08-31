@@ -8,7 +8,6 @@ import type {
 
 import { useState } from "react";
 
-import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
@@ -24,9 +23,10 @@ import {
 } from "@mui/material";
 
 import SectionContainer from "@/components/common/SectionContainer";
-
-const WHATSAPP_NUMBER = "50433219649";
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
+import {
+    getWhatsAppUrl,
+    WHATSAPP_URL,
+} from "@/lib/business";
 
 const FACEBOOK_URL =
     "https://www.facebook.com/profile.php?id=61574277849076";
@@ -211,7 +211,7 @@ export default function ContactSection() {
             `Idea: ${idea}`,
         ].join("\n");
 
-        const url = `${WHATSAPP_URL}?text=${encodeURIComponent(message)}`;
+        const url = getWhatsAppUrl(message);
 
         window.open(url, "_blank", "noopener,noreferrer");
     };

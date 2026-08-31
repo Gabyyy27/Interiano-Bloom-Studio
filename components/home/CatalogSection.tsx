@@ -2,194 +2,342 @@
 
 import { useState } from "react";
 
+import CollectionsOutlinedIcon from "@mui/icons-material/CollectionsOutlined";
 import {
+  Alert,
   Box,
   Button,
   Stack,
   Typography,
 } from "@mui/material";
 
+import SectionContainer from "@/components/common/SectionContainer";
 import CatalogCard from "@/components/home/CatalogCard";
 import CatalogDialog from "@/components/home/CatalogDialog";
-import SectionContainer from "@/components/common/SectionContainer";
-import {
-  catalogCategories,
-  type CatalogCategory,
-  type CatalogItem,
+import type {
+  CatalogCategory,
+  CatalogItem,
 } from "@/types/catalog";
 
-const catalogItems: CatalogItem[] = [
-  {
-    id: "1",
-    title: "Caja Floral de Cumpleaños",
-    subtitle: "Rosas y detalles personalizados",
-    description:
-      "Una composición preparada especialmente para celebrar. Puedes personalizar los colores, el estilo de las flores y los complementos del arreglo.",
-    category: "Cumpleaños",
-    imageSrc: "/images/gallery/birthday-1.webp",
-    imageAlt: "Caja floral personalizada para cumpleaños",
-  },
-  {
-    id: "2",
-    title: "Rosas Románticas",
-    subtitle: "Un detalle para celebrar juntos",
-    description:
-      "Un arreglo floral romántico diseñado para aniversarios y fechas especiales. Los colores y complementos pueden adaptarse a tu idea.",
-    category: "Aniversarios",
-    imageSrc: "/images/gallery/anniversary-1.webp",
-    imageAlt: "Arreglo de rosas para aniversario",
-  },
-  {
-    id: "3",
-    title: "Arreglo Floral para Boda",
-    subtitle: "Elegancia para una ocasión inolvidable",
-    description:
-      "Una composición elegante para bodas y celebraciones. El diseño puede personalizarse según la decoración, la paleta de colores y el estilo del evento.",
-    category: "Bodas",
-    imageSrc: "/images/gallery/wedding-1.jpg",
-    imageAlt: "Arreglo floral elegante para boda",
-  },
-  {
-    id: "4",
-    title: "Rosas Eternas Premium",
-    subtitle: "Caja acrílica con acabado elegante",
-    description:
-      "Todos nuestros diseños son personalizables. Elige colores, complementos y un mensaje único; nosotros convertimos tu idea en un detalle especial.",
-    category: "Detalles",
-    imageSrc: "/images/gallery/detail-1.webp",
-    imageAlt: "Rosas eternas dentro de una caja acrílica",
-  },
-  {
-    id: "5",
-    title: "Bouquet de Celebración",
-    subtitle: "Color y alegría para su día",
-    description:
-      "Un bouquet alegre preparado para cumpleaños y celebraciones. Puede combinar flores, globos, chocolates y otros complementos.",
-    category: "Cumpleaños",
-    imageSrc: "/images/gallery/birthday-2.jpeg",
-    imageAlt: "Bouquet floral colorido para cumpleaños",
-  },
-  {
-    id: "6",
-    title: "Composición Floral Elegante",
-    subtitle: "Flores seleccionadas para eventos",
-    description:
-      "Una composición floral creada para complementar bodas y eventos especiales. Adaptamos el diseño a la ambientación de tu celebración.",
-    category: "Bodas",
-    imageSrc: "/images/gallery/wedding-2.jpg",
-    imageAlt: "Composición floral para una boda",
-  },
-];
+const ALL_CATEGORIES = "all";
 
-export default function CatalogSection() {
-  const [selectedCategory, setSelectedCategory] =
-    useState<CatalogCategory>("Todos");
+interface CatalogSectionProps {
+  categories: CatalogCategory[];
+  items: CatalogItem[];
+  hasError: boolean;
+}
+
+export default function CatalogSection({
+  categories,
+  items,
+  hasError,
+}: CatalogSectionProps) {
+  const [
+    selectedCategoryId,
+    setSelectedCategoryId,
+  ] = useState(ALL_CATEGORIES);
 
   const [selectedItem, setSelectedItem] =
     useState<CatalogItem | null>(null);
 
-  const filteredItems =
-    selectedCategory === "Todos"
-      ? catalogItems
-      : catalogItems.filter(
-          (item) => item.category === selectedCategory,
+  const visibleItems =
+    selectedCategoryId === ALL_CATEGORIES
+      ? items
+      : items.filter(
+          (item) =>
+            item.categoryId === selectedCategoryId,
         );
 
   return (
     <>
-      <SectionContainer id="catalogo">
-        <Stack spacing={6}>
-          <Stack
-            spacing={2}
-            sx={{
-              maxWidth: 720,
-            }}
-          >
-            <Typography
-              component="p"
-              variant="body2"
-              sx={{
-                color: "secondary.dark",
-                fontWeight: 700,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-              }}
-            >
-              Nuestro catálogo
-            </Typography>
-
-            <Typography component="h2" variant="h2">
-              Detalles creados para cada ocasión
-            </Typography>
-
-            <Typography color="text.secondary">
-              Explora nuestros diseños y selecciona una categoría
-              para encontrar el detalle adecuado.
-            </Typography>
-          </Stack>
-
-          <Stack
-            direction="row"
+      <SectionContainer
+        id="catalogo"
+        maxWidth={false}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: 1440,
+            mx: "auto",
+            px: {
+              xs: 2,
+              sm: 3,
+              md: 4,
+            },
+          }}
+        >
+          <Stack spacing={{ xs: 3, md: 4 }}></Stack>
+            {/* ENCABEZADO */}
+            <Stack
             spacing={1.5}
-            useFlexGap
             sx={{
-              flexWrap: "wrap",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
+             width: "100%",
+             maxWidth: "none",
+                mx: "auto",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                }}
           >
-            {catalogCategories.map((category) => {
-              const isSelected =
-                selectedCategory === category;
+              <Typography
+  variant="overline"
+  sx={{
+    display: "block",
+    width: "100%",
+    mx: "auto",
+    color: "secondary.dark",
+    fontWeight: 700,
+    letterSpacing: "0.18em",
+    textAlign: "center",
+  }}
+>
+  Nuestro catálogo
+</Typography>
 
-              return (
-                <Button
-                  key={category}
-                  type="button"
-                  variant={
-                    isSelected
-                      ? "contained"
-                      : "outlined"
-                  }
-                  color="primary"
-                  aria-pressed={isSelected}
-                  onClick={() =>
-                    setSelectedCategory(category)
-                  }
+              <Typography
+  component="h4"
+  sx={{
+    width: "100%",
+    maxWidth: 1200,
+    mx: "auto",
+    color: "text.primary",
+    fontFamily:
+      "var(--font-display), Georgia, serif",
+    fontSize: {
+      xs: "2.45rem",
+      sm: "3.25rem",
+      md: "3.9rem",
+      lg: "4.35rem",
+    },
+    fontWeight: 500,
+    lineHeight: {
+      xs: 1.03,
+      md: 0.98,
+    },
+    textAlign: "center",
+    textWrap: "balance",
+  }}
+>
+  Encuentra el detalle perfecto para cada ocasión.
+</Typography>
+
+              <Typography
+  sx={{
+    width: "100%",
+    maxWidth: 680,
+    mx: "auto",
+    color: "text.secondary",
+    fontSize: {
+      xs: "0.95rem",
+      sm: "1.08rem",
+    },
+    lineHeight: 1.7,
+    textAlign: "center",
+    textWrap: "balance",
+  }}
+>
+  Explora nuestras creaciones hechas con amor.
+</Typography>
+
+            {hasError ? (
+              <Alert severity="error">
+                No fue posible cargar el catálogo en este
+                momento.
+              </Alert>
+            ) : null}
+
+            {!hasError && items.length === 0 ? (
+              <Box
+                sx={{
+                  py: 7,
+                  border: "1px dashed",
+                  borderColor: "divider",
+                  borderRadius: 4,
+                  textAlign: "center",
+                }}
+              >
+                <CollectionsOutlinedIcon
+                  sx={{
+                    color: "primary.main",
+                    fontSize: 48,
+                  }}
+                />
+
+                <Typography
+                  component="h3"
+                  sx={{
+                    mt: 1.5,
+                    fontFamily:
+                      "var(--font-display), Georgia, serif",
+                    fontSize: "1.8rem",
+                    fontWeight: 500,
+                  }}
                 >
-                  {category}
-                </Button>
-              );
-            })}
-          </Stack>
+                  Próximamente nuevas creaciones
+                </Typography>
+              </Box>
+            ) : null}
 
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "1fr",
-                sm: "repeat(2, minmax(0, 1fr))",
-                md: "repeat(3, minmax(0, 1fr))",
-              },
-              gap: 3,
-            }}
-          >
-            {filteredItems.map((item) => (
-              <CatalogCard
-                key={item.id}
-                item={item}
-                onViewDetails={() =>
-                  setSelectedItem(item)
-                }
-              />
-            ))}
-          </Box>
-        </Stack>
+            {!hasError && items.length > 0 ? (
+              <>
+                {/* FILTROS */}
+                <Stack
+                  component="nav"
+                  aria-label="Filtrar catálogo por categoría"
+                  direction="row"
+                  spacing={1}
+                  useFlexGap
+                  sx={{
+                    width: "100%",
+                    mx: "auto",
+                    px: {
+                      xs: 0,
+                      sm: 0,
+                    },
+                    pb: {
+                      xs: 0.5,
+                      sm: 0,
+                    },
+                    overflowX: {
+                      xs: "auto",
+                      sm: "visible",
+                    },
+                    flexWrap: {
+                      xs: "nowrap",
+                      sm: "wrap",
+                    },
+                    justifyContent: {
+                      xs: "flex-start",
+                      sm: "center",
+                    },
+                    scrollbarWidth: "thin",
+                  }}
+                >
+                  <Button
+                    type="button"
+                    variant={
+                      selectedCategoryId ===
+                      ALL_CATEGORIES
+                        ? "contained"
+                        : "outlined"
+                    }
+                    color="primary"
+                    onClick={() =>
+                      setSelectedCategoryId(
+                        ALL_CATEGORIES,
+                      )
+                    }
+                    sx={{
+                      flexShrink: 0,
+                      minHeight: {
+                        xs: 42,
+                        sm: 46,
+                      },
+                      px: {
+                        xs: 2,
+                        sm: 2.75,
+                      },
+                      borderColor:
+                        "rgba(107, 81, 56, 0.34)",
+                      backgroundColor:
+                        selectedCategoryId ===
+                        ALL_CATEGORIES
+                          ? "primary.main"
+                          : "rgba(255, 253, 248, 0.72)",
+                    }}
+                  >
+                    Todos
+                  </Button>
+
+                  {categories.map((category) => {
+                    const isSelected =
+                      selectedCategoryId ===
+                      category.id;
+
+                    return (
+                      <Button
+                        key={category.id}
+                        type="button"
+                        variant={
+                          isSelected
+                            ? "contained"
+                            : "outlined"
+                        }
+                        color="primary"
+                        onClick={() =>
+                          setSelectedCategoryId(
+                            category.id,
+                          )
+                        }
+                        sx={{
+                          flexShrink: 0,
+                          minHeight: {
+                            xs: 42,
+                            sm: 46,
+                          },
+                          px: {
+                            xs: 1,
+                            sm: 2.75,
+                            md: 4,
+                          },
+                          borderColor:
+                            "rgba(107, 81, 56, 0.34)",
+                          backgroundColor: isSelected
+                            ? "primary.main"
+                            : "rgba(255, 253, 248, 0.72)",
+                        }}
+                      >
+                        {category.name}
+                      </Button>
+                    );
+                  })}
+                </Stack>
+
+                {/* GRID */}
+                {visibleItems.length > 0 ? (
+                  <Box
+                    sx={{
+                      display: "grid",
+
+                      gridTemplateColumns: {
+                        xs: "repeat(2, minmax(0, 1fr))",
+                        md: "repeat(2, minmax(0, 1fr))",
+                        lg: "repeat(4, minmax(0, 1fr))",
+                      },
+
+                      gap: {
+                        xs: 1,
+                        sm: 1.5,
+                        md: 2.5,
+                        lg: 3 ,
+                      },
+
+                      width: "100%",
+                    }}
+                  >
+                    {visibleItems.map((item) => (
+                      <CatalogCard
+                        key={item.id}
+                        item={item}
+                        onOpen={setSelectedItem}
+                      />
+                    ))}
+                  </Box>
+                ) : (
+                  <Alert severity="info">
+                    Esta categoría todavía no contiene
+                    imágenes.
+                  </Alert>
+                )}
+              </>
+            ) : null}
+          </Stack>
+        </Box>
       </SectionContainer>
 
       <CatalogDialog
-        item={selectedItem}
         open={selectedItem !== null}
+        item={selectedItem}
         onClose={() => setSelectedItem(null)}
       />
     </>
