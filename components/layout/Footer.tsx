@@ -115,8 +115,7 @@ export default function Footer() {
                   lineHeight: 1.7,
                 }}
               >
-                Diseños florales personalizados para convertir celebraciones y
-                detalles especiales en recuerdos inolvidables.
+                Detalles únicos para momentos que merecen recordarse.
               </Typography>
             </Stack>
 

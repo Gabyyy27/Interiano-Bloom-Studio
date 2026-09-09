@@ -49,7 +49,7 @@ export default function CatalogCard({
           md: 5,
         },
 
-        backgroundColor: "primary.dark",
+        backgroundColor: "#FFF",
 
         boxShadow: {
           xs: "0 10px 26px rgba(43, 33, 24, 0.10)",

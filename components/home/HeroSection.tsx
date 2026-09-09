@@ -242,10 +242,10 @@ export default function HeroSection() {
               fill
               preload
               sizes="
-      (max-width: 599px) calc(100vw - 32px),
-      (max-width: 899px) calc(100vw - 48px),
-      52vw
-    "
+              (max-width: 599px) calc(100vw - 32px),
+              (max-width: 899px) calc(100vw - 48px),
+              52vw
+              "
               style={{
                 objectFit: "cover",
                 objectPosition: "center",
