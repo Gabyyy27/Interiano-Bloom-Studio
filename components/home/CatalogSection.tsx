@@ -77,8 +77,18 @@ export default function CatalogSection({
     visibleItems.length / ITEMS_PER_PAGE,
   );
 
+  /*
+   * No necesitamos sincronizar currentPage mediante un Effect.
+   * Si cambia la cantidad de productos y la página actual deja de
+   * existir, utilizamos temporalmente la última página válida.
+   */
+  const safeCurrentPage =
+    totalPages === 0
+      ? 1
+      : Math.min(currentPage, totalPages);
+
   const startIndex =
-    (currentPage - 1) * ITEMS_PER_PAGE;
+    (safeCurrentPage - 1) * ITEMS_PER_PAGE;
 
   const paginatedItems = visibleItems.slice(
     startIndex,
@@ -90,23 +100,9 @@ export default function CatalogSection({
   ) => {
     setSelectedCategoryId(categoryId);
 
-    // Cuando cambia el filtro siempre regresamos
-    // a la primera página.
+    // Cada filtro comienza desde su primera página.
     setCurrentPage(1);
   };
-  useEffect(() => {
-    if (totalPages === 0) {
-      if (currentPage !== 1) {
-        setCurrentPage(1);
-      }
-
-      return;
-    }
-
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages);
-    }
-  }, [currentPage, totalPages]);
 
   const updateCategoryScrollState =
     useCallback(() => {
@@ -681,8 +677,7 @@ export default function CatalogSection({
           >
             <Pagination
               count={totalPages}
-              page={currentPage}
-
+              page={safeCurrentPage}
               color="primary"
 
               siblingCount={1}

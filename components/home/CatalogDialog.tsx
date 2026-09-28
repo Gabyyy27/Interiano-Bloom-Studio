@@ -442,26 +442,37 @@ export default function CatalogDialog({
             sx: {
               width: {
                 xs: "calc(100% - 24px)",
-                lg: "min(1180px, calc(100% - 64px))",
+                sm: "min(720px, calc(100% - 48px))",
+                md: "min(820px, calc(100% - 64px))",
+                lg: "min(920px, calc(100% - 80px))",
               },
 
-              maxWidth: 1180,
+              maxWidth: 920,
+
               maxHeight: {
                 xs: "calc(100dvh - 32px)",
+                sm: "calc(100dvh - 48px)",
                 lg: "calc(100dvh - 64px)",
               },
+
               m: {
                 xs: 1.5,
+                sm: 3,
                 lg: 4,
               },
+
               overflow: "hidden",
+
               border: "1px solid",
               borderColor: "rgba(107, 81, 56, 0.18)",
+
               borderRadius: {
                 xs: 4,
                 lg: 4,
               },
+
               backgroundColor: "#FBF7F0",
+
               boxShadow:
                 "0 34px 90px rgba(43, 33, 24, 0.24)",
             },
@@ -522,17 +533,27 @@ export default function CatalogDialog({
         <DialogContent
           sx={{
             p: 0,
+
+            overflowX: "hidden",
             overflowY: "auto",
+
+            WebkitOverflowScrolling: "touch",
+
+            // El contenido sigue teniendo scroll,
+            // pero la barra no se muestra.
+            scrollbarWidth: "none",
+
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
           }}
         >
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: {
-                xs: "1fr",
-                lg: "minmax(0, 1.55fr) minmax(340px, 0.85fr)",
-              },
+              gridTemplateColumns: "minmax(0, 1fr)",
               minWidth: 0,
+              width: "100%",
             }}
           >
             <Box
@@ -542,18 +563,20 @@ export default function CatalogDialog({
               sx={{
                 position: "relative",
                 minWidth: 0,
+
                 minHeight: {
                   xs: 360,
-                  sm: 480,
-                  md: 560,
-                  lg: 0,
+                  sm: 460,
+                  md: 500,
+                  lg: 540,
                 },
 
-                height: {
-                  lg: 620,
-                },
                 overflow: "hidden",
-                backgroundColor: "#EFE4D4",
+
+                // Blanco funciona mejor con PNG transparentes
+                // y fotografías verticales.
+                backgroundColor: "#FFFFFF",
+
                 touchAction: isImageZoomed
                   ? "none"
                   : "pan-y",
@@ -777,57 +800,48 @@ export default function CatalogDialog({
                 </>
               ) : null}
             </Box>
-
             <Box
               sx={{
                 minWidth: 0,
+
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: {
-                  xs: "flex-start",
-                  lg: "center",
-                },
+                justifyContent: "flex-start",
+
                 p: {
                   xs: 3,
                   sm: 4,
-                  md: 5,
+                  md: 4.5,
                   lg: 5,
                 },
-                px: {
-                  lg: 5.5,
-                },
-                py: {
-                  lg: 5,
-                },
-                borderLeft: {
-                  lg: "1px solid",
-                },
-                borderColor: {
-                  lg: "divider",
-                },
+
+                borderTop: "1px solid",
+                borderColor: "divider",
+
                 background: `
-                  radial-gradient(
-                    circle at top right,
-                    rgba(216, 189, 139, 0.20),
-                    transparent 34%
-                  ),
-                  linear-gradient(
-                    145deg,
-                    #FBF7F0 0%,
-                    #F8F0E4 100%
-                  )
-                `,
+                radial-gradient(
+              circle at top right,
+              rgba(216, 189, 139, 0.20),
+              transparent 34%
+              ),
+              linear-gradient(
+              145deg,
+              #FBF7F0 0%,
+              #F8F0E4 100%
+              )
+            `,
               }}
             >
               <Stack
                 sx={{
                   width: "100%",
+
                   maxWidth: {
-                    lg: 460,
+                    lg: 900,
                   },
-                  mx: {
-                    lg: "auto",
-                  },
+
+                  mx: "auto",
+
                   alignItems: "flex-start",
                 }}
               >
@@ -845,21 +859,6 @@ export default function CatalogDialog({
                 >
                   {item.categoryName}
                 </Typography>
-
-                <Box
-                  aria-hidden="true"
-                  sx={{
-                    display: {
-                      xs: "none",
-                      lg: "block",
-                    },
-                    width: 42,
-                    height: 2,
-                    mb: 4,
-                    borderRadius: 999,
-                    backgroundColor: "secondary.main",
-                  }}
-                />
 
                 <Typography
                   id="catalog-dialog-title"
