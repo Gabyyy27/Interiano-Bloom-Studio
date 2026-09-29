@@ -1,11 +1,12 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 
 import {
   isCatalogImagePath,
   MAX_CATALOG_IMAGES,
 } from "@/lib/catalog/imageRules";
+import { PUBLIC_CATALOG_CACHE_TAG } from "@/lib/catalog/getPublicCatalog";
 import { removeCatalogStoragePaths } from "@/lib/catalog/removeCatalogStoragePaths";
 import { requireCatalogAdmin } from "@/lib/auth/requireCatalogAdmin";
 import type {
@@ -61,6 +62,15 @@ function validateMetadata(
 }
 
 function revalidateCatalogViews() {
+  /*
+   * Expira inmediatamente los datos públicos
+   * cacheados del catálogo.
+   *
+   * La próxima visita a la landing obtendrá
+   * información fresca desde Supabase.
+   */
+  updateTag(PUBLIC_CATALOG_CACHE_TAG);
+
   revalidatePath("/admin/catalogo");
   revalidatePath("/admin/categorias");
   revalidatePath("/");

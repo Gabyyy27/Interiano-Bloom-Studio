@@ -18,8 +18,31 @@ export interface CatalogItem {
   images: CatalogImage[];
 }
 
-export interface PublicCatalogData {
+/**
+ * Parámetros que podrá recibir la consulta
+ * paginada del catálogo público.
+ *
+ * categoryId = null significa "Todos".
+ */
+export interface PublicCatalogQuery {
+  page?: number;
+  categoryId?: string | null;
+}
+
+/**
+ * Resultado paginado que recibirá la landing
+ * una vez terminemos la migración.
+ */
+export interface PublicCatalogPageData {
   categories: CatalogCategory[];
   items: CatalogItem[];
   hasError: boolean;
+
+  page: number;
+  pageSize: number;
+
+  totalItems: number;
+  totalPages: number;
+
+  categoryId: string | null;
 }

@@ -278,11 +278,6 @@ export default function ZoomableImage({
         position: "relative",
         width: "100%",
         height: "100%",
-        minHeight: {
-          xs: 420,
-          sm: 520,
-          md: 620,
-        },
         overflow: "hidden",
         display: "grid",
         placeItems: "center",
@@ -300,34 +295,83 @@ export default function ZoomableImage({
       }}
     >
       <Box
-        component="img"
-        src={src}
-        alt={alt}
-        draggable={false}
         sx={{
           position: "absolute",
           inset: 0,
-          width: "100%",
-          height: "100%",
-          display: "block",
-          objectFit: "contain",
-          objectPosition: "center",
+
           p: {
             xs: 1,
             sm: 2,
           },
+
           pointerEvents: "none",
+
           transform: `
-            translate(${offset.x}px, ${offset.y}px)
-            scale(${zoom})
-          `,
+      translate(${offset.x}px, ${offset.y}px)
+      scale(${zoom})
+    `,
+
           transformOrigin: "center",
+
           transition: isDragging
             ? "none"
             : "transform 180ms ease",
+
           willChange: "transform",
         }}
-      />
+      >
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <Box
+            component="img"
+            src={src}
+            alt={alt}
+            draggable={false}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            sx={{
+              position: "absolute",
+              inset: 0,
+
+              width: "100%",
+              height: "100%",
+
+              display: "block",
+
+              objectFit: "contain",
+              objectPosition: "center",
+
+              p: {
+                xs: 1,
+                sm: 2,
+              },
+
+              pointerEvents: "none",
+
+              transform: `
+      translate(${offset.x}px, ${offset.y}px)
+      scale(${zoom})
+    `,
+
+              transformOrigin: "center",
+
+              transition: isDragging
+                ? "none"
+                : "transform 180ms ease",
+
+              willChange: "transform",
+
+              userSelect: "none",
+            }}
+          />
+        </Box>
+      </Box>
 
       <Paper
         elevation={0}

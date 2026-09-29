@@ -65,7 +65,6 @@ export default function Brand({
             alt="Logo de Interiano Bloom Studio"
             fill
             sizes={compact ? "42px" : "56px"}
-            quality={100}
             style={{
               objectFit: "contain",
             }}

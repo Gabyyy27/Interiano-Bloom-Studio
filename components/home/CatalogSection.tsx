@@ -7,6 +7,8 @@ import {
   useState,
 } from "react";
 
+import { useRouter } from "next/navigation";
+
 import CollectionsOutlinedIcon from "@mui/icons-material/CollectionsOutlined";
 import {
   Alert,
@@ -29,35 +31,66 @@ import type {
 } from "@/types/catalog";
 
 const ALL_CATEGORIES = "all";
-const ITEMS_PER_PAGE = 10;
 
 interface CatalogSectionProps {
   categories: CatalogCategory[];
   items: CatalogItem[];
   hasError: boolean;
+
+  serverPage: number;
+  serverTotalPages: number;
+  serverCategoryId: string | null;
 }
 
 export default function CatalogSection({
   categories,
   items,
   hasError,
+  serverPage,
+  serverTotalPages,
+  serverCategoryId,
 }: CatalogSectionProps) {
-  const [
-    selectedCategoryId,
-    setSelectedCategoryId,
-  ] = useState(ALL_CATEGORIES);
+
+  const router = useRouter();
 
   const [selectedItem, setSelectedItem] =
     useState<CatalogItem | null>(null);
-
-  const [currentPage, setCurrentPage] =
-    useState(1);
 
   const categoryScrollRef =
     useRef<HTMLDivElement | null>(null);
 
   const catalogGridRef =
     useRef<HTMLDivElement | null>(null);
+  const navigateCatalog = (
+    page: number,
+    categoryId: string | null,
+  ) => {
+    const params = new URLSearchParams();
+
+    if (categoryId) {
+      params.set("category", categoryId);
+    }
+
+    if (page > 1) {
+      params.set("page", String(page));
+    }
+
+    const query = params.toString();
+
+    router.push(
+      `${query ? `/?${query}` : "/"}#catalogo`,
+      {
+        scroll: false,
+      },
+    );
+
+    requestAnimationFrame(() => {
+      catalogGridRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  };
 
   const [canScrollLeft, setCanScrollLeft] =
     useState(false);
@@ -65,45 +98,36 @@ export default function CatalogSection({
   const [canScrollRight, setCanScrollRight] =
     useState(false);
 
-  const visibleItems =
-    selectedCategoryId === ALL_CATEGORIES
-      ? items
-      : items.filter(
-        (item) =>
-          item.categoryId === selectedCategoryId,
-      );
+  const activeCategoryId =
+    serverCategoryId ?? ALL_CATEGORIES;
 
-  const totalPages = Math.ceil(
-    visibleItems.length / ITEMS_PER_PAGE,
-  );
+  const totalPages =
+    serverTotalPages;
 
-  /*
-   * No necesitamos sincronizar currentPage mediante un Effect.
-   * Si cambia la cantidad de productos y la página actual deja de
-   * existir, utilizamos temporalmente la última página válida.
-   */
   const safeCurrentPage =
     totalPages === 0
       ? 1
-      : Math.min(currentPage, totalPages);
+      : Math.min(
+        serverPage,
+        totalPages,
+      );
 
-  const startIndex =
-    (safeCurrentPage - 1) * ITEMS_PER_PAGE;
-
-  const paginatedItems = visibleItems.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE,
-  );
+  /*
+   * Los productos ya vienen filtrados
+   * y paginados desde Supabase.
+   */
+  const paginatedItems = items;
 
   const handleCategoryChange = (
     categoryId: string,
   ) => {
-    setSelectedCategoryId(categoryId);
-
-    // Cada filtro comienza desde su primera página.
-    setCurrentPage(1);
+    navigateCatalog(
+      1,
+      categoryId === ALL_CATEGORIES
+        ? null
+        : categoryId,
+    );
   };
-
   const updateCategoryScrollState =
     useCallback(() => {
       const element =
@@ -386,8 +410,7 @@ export default function CatalogSection({
                     <Button
                       type="button"
                       variant={
-                        selectedCategoryId ===
-                          ALL_CATEGORIES
+                        activeCategoryId === ALL_CATEGORIES
                           ? "contained"
                           : "outlined"
                       }
@@ -416,7 +439,7 @@ export default function CatalogSection({
                           "rgba(107, 81, 56, 0.34)",
 
                         backgroundColor:
-                          selectedCategoryId ===
+                          activeCategoryId ===
                             ALL_CATEGORIES
                             ? "primary.main"
                             : "rgba(255, 253, 248, 0.72)",
@@ -427,9 +450,7 @@ export default function CatalogSection({
 
                     {categories.map((category) => {
                       const isSelected =
-                        selectedCategoryId ===
-                        category.id;
-
+                        activeCategoryId === category.id;
                       return (
                         <Button
                           key={category.id}
@@ -641,11 +662,12 @@ export default function CatalogSection({
                       },
                     }}
                   >
-                    {paginatedItems.map((item) => (
+                    {paginatedItems.map((item, index) => (
                       <CatalogCard
                         key={item.id}
                         item={item}
                         onOpen={setSelectedItem}
+                        eager={index === 0}
                       />
                     ))}
                   </Box>
@@ -687,14 +709,10 @@ export default function CatalogSection({
               showLastButton={false}
 
               onChange={(_, nextPage) => {
-                setCurrentPage(nextPage);
-
-                requestAnimationFrame(() => {
-                  catalogGridRef.current?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-                });
+                navigateCatalog(
+                  nextPage,
+                  serverCategoryId,
+                );
               }}
 
               sx={{

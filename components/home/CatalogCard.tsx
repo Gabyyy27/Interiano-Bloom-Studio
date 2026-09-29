@@ -14,11 +14,13 @@ import type { CatalogItem } from "@/types/catalog";
 interface CatalogCardProps {
   item: CatalogItem;
   onOpen: (item: CatalogItem) => void;
+  eager?: boolean;
 }
 
 export default function CatalogCard({
   item,
   onOpen,
+  eager = false,
 }: CatalogCardProps) {
   const primaryImage = item.images[0];
 
@@ -104,19 +106,14 @@ export default function CatalogCard({
           src={primaryImage.imageUrl}
           alt={item.title}
           fill
-          sizes="
-            (max-width: 599px) calc((100vw - 44px) / 2),
-            (max-width: 899px) calc((100vw - 64px) / 2),
-            (max-width: 1199px) calc((100vw - 88px) / 2),
-            31vw
-          "
+          loading={eager ? "eager" : "lazy"}
+          sizes="(max-width: 599px) calc((100vw - 44px) / 2), (max-width: 899px) calc((100vw - 64px) / 2), (max-width: 1199px) calc((100vw - 88px) / 2), 31vw"
           style={{
             objectFit: "cover",
             objectPosition: "center",
             transition: "transform 360ms ease",
           }}
         />
-
         <Box
           component="span"
           aria-hidden="true"

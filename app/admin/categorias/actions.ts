@@ -1,8 +1,9 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 
 import { requireCatalogAdmin } from "@/lib/auth/requireCatalogAdmin";
+import { PUBLIC_CATALOG_CACHE_TAG } from "@/lib/catalog/getPublicCatalog";
 import { removeCatalogStoragePaths } from "@/lib/catalog/removeCatalogStoragePaths";
 import type { CategoryActionState } from "@/types/admin";
 
@@ -73,6 +74,8 @@ function getDatabaseErrorMessage(
 }
 
 function revalidateCategoryViews() {
+  updateTag(PUBLIC_CATALOG_CACHE_TAG);
+
   revalidatePath("/admin/categorias");
   revalidatePath("/admin/catalogo");
   revalidatePath("/");

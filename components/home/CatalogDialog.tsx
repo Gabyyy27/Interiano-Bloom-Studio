@@ -383,39 +383,6 @@ export default function CatalogDialog({
     selectedImageIndex,
   ]);
 
-  useEffect(() => {
-    if (
-      typeof window === "undefined" ||
-      !open ||
-      images.length <= 1
-    ) {
-      return;
-    }
-
-    const adjacentImages = new Set<string>();
-    const previousIndex =
-      (selectedImageIndex - 1 + images.length) %
-      images.length;
-    const nextIndex =
-      (selectedImageIndex + 1) % images.length;
-
-    adjacentImages.add(
-      images[previousIndex]?.imageUrl ?? "",
-    );
-    adjacentImages.add(
-      images[nextIndex]?.imageUrl ?? "",
-    );
-
-    adjacentImages.forEach((imageUrl) => {
-      if (!imageUrl) {
-        return;
-      }
-
-      const image = new window.Image();
-      image.src = imageUrl;
-    });
-  }, [images, open, selectedImageIndex]);
-
   if (!item || !selectedImage) {
     return null;
   }
@@ -454,7 +421,11 @@ export default function CatalogDialog({
                 sm: "calc(100dvh - 48px)",
                 lg: "calc(100dvh - 64px)",
               },
-
+              height: {
+                xs: "calc(100dvh - 32px)",
+                sm: "calc(100dvh - 48px)",
+                lg: "calc(100dvh - 64px)",
+              },
               m: {
                 xs: 1.5,
                 sm: 3,
@@ -533,27 +504,21 @@ export default function CatalogDialog({
         <DialogContent
           sx={{
             p: 0,
-
-            overflowX: "hidden",
-            overflowY: "auto",
-
-            WebkitOverflowScrolling: "touch",
-
-            // El contenido sigue teniendo scroll,
-            // pero la barra no se muestra.
-            scrollbarWidth: "none",
-
-            "&::-webkit-scrollbar": {
-              display: "none",
-            },
+            display: "flex",
+            flexDirection: "column",
+            minHeight: 0,
+            height: "100%",
+            overflow: "hidden",
           }}
         >
           <Box
             sx={{
-              display: "grid",
-              gridTemplateColumns: "minmax(0, 1fr)",
+              display: "flex",
+              flexDirection: "column",
               minWidth: 0,
+              minHeight: 0,
               width: "100%",
+              height: "100%",
             }}
           >
             <Box
@@ -563,14 +528,8 @@ export default function CatalogDialog({
               sx={{
                 position: "relative",
                 minWidth: 0,
-
-                minHeight: {
-                  xs: 360,
-                  sm: 460,
-                  md: 500,
-                  lg: 540,
-                },
-
+                minHeight: 0,
+                flex: "1 1 auto",
                 overflow: "hidden",
 
                 // Blanco funciona mejor con PNG transparentes
@@ -806,13 +765,13 @@ export default function CatalogDialog({
 
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "flex-start",
+                flex: "0 0 auto",
 
                 p: {
-                  xs: 3,
-                  sm: 4,
-                  md: 4.5,
-                  lg: 5,
+                  xs: 2.25,
+                  sm: 3,
+                  md: 3.5,
+                  lg: 4,
                 },
 
                 borderTop: "1px solid",
@@ -832,59 +791,85 @@ export default function CatalogDialog({
             `,
               }}
             >
-              <Stack
+              <Box
                 sx={{
                   width: "100%",
-
                   maxWidth: {
                     lg: 900,
                   },
-
                   mx: "auto",
 
-                  alignItems: "flex-start",
+                  display: "grid",
+
+                  gridTemplateColumns: {
+                    xs: "minmax(0, 1fr)",
+                    sm: "minmax(0, 1fr) auto",
+                  },
+
+                  alignItems: "center",
+
+                  gap: {
+                    xs: 2,
+                    sm: 3,
+                    md: 4,
+                  },
                 }}
               >
-                <Typography
-                  component="p"
+                {/* BLOQUE IZQUIERDO: categoría + título */}
+                <Box
                   sx={{
-                    mb: 1.5,
-                    color: "secondary.dark",
-                    fontSize: "0.76rem",
-                    fontWeight: 800,
-                    letterSpacing: "0.2em",
-                    lineHeight: 1.35,
-                    textTransform: "uppercase",
+                    minWidth: 0,
                   }}
                 >
-                  {item.categoryName}
-                </Typography>
+                  <Typography
+                    component="p"
+                    sx={{
+                      mb: 0.75,
+                      color: "secondary.dark",
+                      fontSize: "0.76rem",
+                      fontWeight: 800,
+                      letterSpacing: "0.2em",
+                      lineHeight: 1.35,
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {item.categoryName}
+                  </Typography>
 
-                <Typography
-                  id="catalog-dialog-title"
-                  component="h2"
-                  sx={{
-                    maxWidth: 420,
-                    width: "100%",
-                    color: "text.primary",
-                    fontFamily:
-                      "var(--font-display), Georgia, serif",
-                    fontSize: {
-                      xs: "2.45rem",
-                      sm: "3rem",
-                      md: "3.55rem",
-                      lg: "clamp(3rem, 4vw, 5rem)",
-                    },
-                    fontWeight: 500,
-                    lineHeight: {
-                      xs: 1.02,
-                      lg: 0.98,
-                    },
-                    overflowWrap: "anywhere",
-                  }}
-                >
-                  {item.title}
-                </Typography>
+                  <Typography
+                    id="catalog-dialog-title"
+                    component="h2"
+                    sx={{
+                      width: "100%",
+                      maxWidth: 520,
+
+                      color: "text.primary",
+
+                      fontFamily:
+                        "var(--font-display), Georgia, serif",
+
+                      fontSize: {
+                        xs: "2.15rem",
+                        sm: "2.6rem",
+                        md: "3rem",
+                        lg: "3.35rem",
+                      },
+
+                      fontWeight: 500,
+
+                      lineHeight: {
+                        xs: 1,
+                        sm: 0.98,
+                      },
+
+                      overflowWrap: "anywhere",
+                    }}
+                  >
+                    {item.title}
+                  </Typography>
+                </Box>
+
+                {/* CTA DERECHO */}
                 <Button
                   component="a"
                   href={quoteUrl}
@@ -893,19 +878,31 @@ export default function CatalogDialog({
                   variant="contained"
                   startIcon={<WhatsAppIcon />}
                   sx={{
-                    mt: {
-                      xs: 3,
-                      md: 3.5,
+                    justifySelf: {
+                      xs: "start",
+                      sm: "end",
                     },
+
+                    alignSelf: "center",
+
                     width: "fit-content",
                     maxWidth: "100%",
+
+                    minWidth: {
+                      sm: 190,
+                    },
+
                     minHeight: 54,
+
                     px: 3.25,
+
                     color: "primary.contrastText",
                     backgroundColor: "primary.main",
+
                     boxShadow:
                       "0 14px 30px rgba(73, 53, 36, 0.2)",
-                    whiteSpace: "normal",
+
+                    whiteSpace: "nowrap",
 
                     "&:hover": {
                       backgroundColor: "primary.dark",
@@ -916,7 +913,7 @@ export default function CatalogDialog({
                 >
                   Cotizar aquí
                 </Button>
-              </Stack>
+              </Box>
             </Box>
           </Box>
         </DialogContent>
