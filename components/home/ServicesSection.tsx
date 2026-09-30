@@ -18,9 +18,9 @@ interface Service {
 
 const services: Service[] = [
   {
-    title: "Cajas de Rosas",
+    title: "Rosas Naturales",
     description:
-      "Rosas de satín en cajas premium con chocolates.",
+      "Frescura garantizada, nuestras rosas destacan por la intensidad de sus colores. Un clásico infalible para decorar o enviar tus mejores deseos.",
     icon: <LocalFloristOutlinedIcon />,
   },
   {
