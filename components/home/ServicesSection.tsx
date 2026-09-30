@@ -5,6 +5,7 @@ import BreakfastDiningOutlinedIcon from "@mui/icons-material/BreakfastDiningOutl
 import CelebrationOutlinedIcon from "@mui/icons-material/CelebrationOutlined";
 import DiamondOutlinedIcon from "@mui/icons-material/DiamondOutlined";
 import LocalFloristOutlinedIcon from "@mui/icons-material/LocalFloristOutlined";
+import Cake from "@mui/icons-material/Cake";
 import { Box, Stack, Typography } from "@mui/material";
 
 import SectionContainer from "@/components/common/SectionContainer";
@@ -52,7 +53,7 @@ const services: Service[] = [
     title: "Postres",
     description:
       "Deliciosos postres para acompañar tus regalos y sorprender a tus seres queridos.",
-    icon: <CelebrationOutlinedIcon />,
+    icon: <Cake/>,
   }
 ];
 
@@ -119,6 +120,7 @@ export default function ServicesSection() {
             }}
           >
             {services.map((service) => (
+
               <Box
                 key={service.title}
                 component="article"
