@@ -237,7 +237,7 @@ export default function HeroSection() {
             }}
           >
             <Image
-              src="/images/hero-flower.png"
+              src="/images/Hero-flower.png"
               alt="Arreglo floral de Interiano Bloom Studio"
               fill
               preload
