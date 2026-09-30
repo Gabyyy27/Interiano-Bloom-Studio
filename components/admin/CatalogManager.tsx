@@ -581,9 +581,11 @@ function CatalogItemFormDialog({
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
+          
             sx={{
               minHeight: 44,
               whiteSpace: "nowrap",
+              outlineWidth: "1px solid"
             }}
           >
             Cancelar
