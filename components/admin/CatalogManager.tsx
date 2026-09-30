@@ -22,7 +22,6 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  MenuItem,
   Paper,
   Snackbar,
   Stack,
@@ -404,49 +403,97 @@ function CatalogItemFormDialog({
                   minWidth: 0,
                 }}
               >
-                <TextField
-                  id="catalog-category"
-                  label="Categoría"
-                  value={categoryId}
-                  select
-                  required
-                  fullWidth
-                  disabled={isSubmitting}
-                  error={Boolean(
-                    actionState.fieldErrors
-                      ?.categoryId,
-                  )}
-                  helperText={
-                    actionState.fieldErrors
-                      ?.categoryId ??
-                    "Selecciona la categoría del ítem."
-                  }
-                  onChange={(event) =>
-                    setCategoryId(
-                      event.target.value,
-                    )
-                  }
-                  slotProps={{
-                    inputLabel: {
-                      shrink: true,
-                    },
+                <Box
+                  role="group"
+                  aria-labelledby="catalog-category-label"
+                  sx={{
+                    width: "100%",
+                    minWidth: 0,
                   }}
                 >
-                  <MenuItem value="" disabled>
-                    Selecciona una categoría
-                  </MenuItem>
+                  <Typography
+                    id="catalog-category-label"
+                    component="p"
+                    sx={{
+                      mb: 1.25,
+                      color: "text.primary",
+                      fontSize: "0.95rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Categorías:
+                  </Typography>
 
-                  {categories.map(
-                    (category) => (
-                      <MenuItem
-                        key={category.id}
-                        value={category.id}
-                      >
-                        {category.name}
-                      </MenuItem>
-                    ),
-                  )}
-                </TextField>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    useFlexGap
+                    sx={{
+                      flexWrap: "wrap",
+                      width: "100%",
+                    }}
+                  >
+                    {categories.map((category) => {
+                      const isSelected =
+                        categoryId === category.id;
+
+                      return (
+                        <Chip
+                          key={category.id}
+                          label={category.name}
+                          clickable
+                          disabled={isSubmitting}
+                          color={
+                            isSelected
+                              ? "primary"
+                              : "default"
+                          }
+                          variant={
+                            isSelected
+                              ? "filled"
+                              : "outlined"
+                          }
+                          aria-pressed={isSelected}
+                          onClick={() =>
+                            setCategoryId(category.id)
+                          }
+                          sx={{
+                            minHeight: 38,
+                            px: 0.5,
+
+                            fontWeight: isSelected
+                              ? 700
+                              : 500,
+
+                            borderColor: isSelected
+                              ? "primary.main"
+                              : "divider",
+
+                            transition:
+                              "background-color 160ms ease, border-color 160ms ease, color 160ms ease",
+                          }}
+                        />
+                      );
+                    })}
+                  </Stack>
+
+                  <Typography
+                    variant="caption"
+                    component="p"
+                    sx={{
+                      mt: 1,
+                      mb: 0,
+                      color:
+                        actionState.fieldErrors?.categoryId
+                          ? "error.main"
+                          : "text.secondary",
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {actionState.fieldErrors?.categoryId ??
+                      "Selecciona una categoría para el ítem."}
+                  </Typography>
+                </Box>
 
                 <TextField
                   id="catalog-title"
