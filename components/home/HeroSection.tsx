@@ -230,15 +230,7 @@ export default function HeroSection() {
                 xl: "64px",
               },
               backgroundColor: "secondary.light",
-              "& .hero-image": {
-                objectFit: {
-                  xs: "cover",
-                  sm: "contain",
-                  lg: "cover",
-                },
-
-                objectPosition: "center",
-              },
+              
               boxShadow: {
                 xs: "0 20px 48px rgba(73, 53, 36, 0.12)",
                 lg: "0 30px 80px rgba(73, 53, 36, 0.14)",
@@ -246,13 +238,14 @@ export default function HeroSection() {
             }}
           >
             <Image
-              className="hero-image"
               src="/images/Hero-flower.png"
               alt="Arreglo floral de Interiano Bloom Studio"
               fill
               preload
               sizes="(max-width: 599px) calc(100vw - 32px), (max-width: 899px) calc(100vw - 48px), 52vw"
               style={{
+                objectFit: "cover",
+                objectPosition: "center",
                 zIndex: 1,
               }}
             />
