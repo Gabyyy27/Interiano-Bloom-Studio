@@ -20,7 +20,7 @@ const services: Service[] = [
   {
     title: "Rosas Naturales",
     description:
-      "Frescura garantizada, nuestras rosas destacan por la intensidad de sus colores. Un clásico infalible para decorar o enviar tus mejores deseos.",
+      "Frescura garantizada, un clásico infalible para decorar o enviar tus mejores deseos.",
     icon: <LocalFloristOutlinedIcon />,
   },
   {
@@ -33,7 +33,7 @@ const services: Service[] = [
   {
     title: "Rosas Eternas",
     description:
-      "Diseños especiales que conservan su belleza por mucho más tiempo.",
+      "Flores de satin con diseños especiales que conservan su belleza por mucho más tiempo.",
     icon: <DiamondOutlinedIcon />,
   },
   {
@@ -48,6 +48,12 @@ const services: Service[] = [
       "Cuéntanos tu idea y crearemos un detalle pensado especialmente para ti.",
     icon: <AutoAwesomeOutlinedIcon />,
   },
+  { 
+    title: "Postres",
+    description:
+      "Deliciosos postres para acompañar tus regalos y sorprender a tus seres queridos.",
+    icon: <CelebrationOutlinedIcon />,
+  }
 ];
 
 export default function ServicesSection() {
