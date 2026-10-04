@@ -146,8 +146,8 @@ export default function HeroSection() {
                 lineHeight: 1.7,
               }}
             >
-              Cajas de rosas, desayunos sorpresa, rosas eternas, regalos
-              personalizados y más. Cada arreglo es único, diseñado a mano y
+              Ramos de rosas, desayunos sorpresa, rosas eternas, regalos
+              personalizados, postres y más. Cada detalle es único, diseñado a mano y
               pensado para hacer sonreír a quien más quieres.
             </Typography>
 
