@@ -121,20 +121,6 @@ export default function AdminShell({
                 Bloom Studio
               </Box>
             </Typography>
-
-            <Typography
-              variant="body2"
-              sx={{
-                color: "text.secondary",
-                fontSize: {
-                  xs: "0.82rem",
-                  sm: "0.95rem",
-                },
-                lineHeight: 1.35,
-              }}
-            >
-              Administración del catálogo
-            </Typography>
           </Box>
 
           <Stack
